@@ -1,51 +1,33 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Sample Fintech Data
-const fintechData = [
-    { id: 1, name: 'Fintech A', sponsorBank: 'Bank A', complianceMetric: 95 },
-    { id: 2, name: 'Fintech B', sponsorBank: 'Bank B', complianceMetric: 90 },
-    { id: 3, name: 'Fintech C', sponsorBank: 'Bank C', complianceMetric: 85 },
-];
+app.use(bodyParser.json());
 
-// Middleware
-app.use(express.json());
-
-// Routes
-app.get('/api/fintech', (req, res) => {
-    res.json(fintechData);
+// Sample endpoint to get fintech data
+app.get('/api/fintech-data', (req, res) => {
+    res.json({ message: 'Fintech data retrieved successfully!', data: [] }); // Replace with actual data
 });
 
-app.get('/api/metrics', (req, res) => {
-    const metrics = fintechData.map(fintech => ({
-        id: fintech.id,
-        complianceMetric: fintech.complianceMetric
-    }));
-    res.json(metrics);
+// Sample endpoint for compliance metrics
+app.get('/api/compliance-metrics', (req, res) => {
+    res.json({ message: 'Compliance metrics retrieved successfully!', metrics: {} }); // Replace with actual metrics
 });
 
-app.get('/api/kpis', (req, res) => {
-    const kpis = fintechData.map(fintech => ({
-        id: fintech.id,
-        kpi: fintech.complianceMetric >= 90 ? 'On Track' : 'Needs Improvement'
-    }));
-    res.json(kpis);
+// Sample endpoint for KPI calculations
+app.post('/api/kpi', (req, res) => {
+    const { data } = req.body;
+    // Perform KPI calculations here
+    res.json({ message: 'KPI calculated successfully!', kpi: {} }); // Replace with actual KPI results
 });
 
+// Sample endpoint for report generation
 app.post('/api/generate-report', (req, res) => {
-    // Logic to generate report
-    res.json({ message: 'Report generated successfully!' });
-});
-
-app.get('/api/export-pdf', (req, res) => {
-    // Logic to export PDF
-    res.json({ message: 'Exported as PDF successfully!' });
-});
-
-app.get('/api/export-excel', (req, res) => {
-    // Logic to export Excel
-    res.json({ message: 'Exported as Excel successfully!' });
+    const { reportType } = req.body;
+    // Generate report logic here
+    res.json({ message: 'Report generated successfully!', report: {} }); // Replace with actual report data
 });
 
 app.listen(PORT, () => {
